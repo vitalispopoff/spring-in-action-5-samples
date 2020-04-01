@@ -31,7 +31,6 @@ public class JdbcTacoRepository implements TacoRepository {
     for (Ingredient ingredient : taco.getIngredients()) {
       saveIngredientToTaco(ingredient, tacoId);
     }
-
     return taco;
   }
 
@@ -59,5 +58,4 @@ public class JdbcTacoRepository implements TacoRepository {
         "values (?, ?)",
         tacoId, ingredient.getId());
   }
-
 }
