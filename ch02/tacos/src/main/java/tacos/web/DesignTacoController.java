@@ -38,12 +38,9 @@ public class DesignTacoController {
                 new Ingredient("SLSA", "Salsa", Type.SAUCE),
                 new Ingredient("SRCR", "Sour Cream", Type.SAUCE)
         );
-
         Type[] types = Ingredient.Type.values();
-        for (Type type : types) {
-            model.addAttribute(type.toString().toLowerCase(),
-                    filterByType(ingredients, type));
-        }
+        for (Type type : types)
+            model.addAttribute(type.toString().toLowerCase(), filterByType(ingredients, type));
     }
 
     @GetMapping
@@ -54,13 +51,12 @@ public class DesignTacoController {
 
     @PostMapping
     public String processDesign(@Valid @ModelAttribute("design") Taco design, Errors errors, Model model) {
-        if (errors.hasErrors()) {return "design";}
+        if (errors.hasErrors()) return "design";
         log.info("Processing design: " + design);
         return "redirect:/orders/current";
     }
 
-    private List<Ingredient> filterByType(
-            List<Ingredient> ingredients, Type type) {
+    private List<Ingredient> filterByType(List<Ingredient> ingredients, Type type) {
         return ingredients
                 .stream()
                 .filter(x -> x.getType().equals(type))

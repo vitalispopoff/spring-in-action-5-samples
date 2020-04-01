@@ -82,9 +82,9 @@ public class DesignAndOrderTacosBrowserTest {
     private void buildAndSubmitATaco(String name, String... ingredients) {
         assertDesignPageElements();
 
-        for (String ingredient : ingredients) {
+        for (String ingredient : ingredients)
             browser.findElementByCssSelector("input[value='" + ingredient + "']").click();
-        }
+
         browser.findElementByCssSelector("input#name").sendKeys(name);
         browser.findElementByCssSelector("form").submit();
     }

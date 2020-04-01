@@ -24,9 +24,7 @@ public class HomePageBrowserTest {
     @BeforeClass
     public static void setup() {
         browser = new HtmlUnitDriver();
-
-        browser.manage().timeouts()
-                .implicitlyWait(10, TimeUnit.SECONDS);
+        browser.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
     }
 
     @AfterClass

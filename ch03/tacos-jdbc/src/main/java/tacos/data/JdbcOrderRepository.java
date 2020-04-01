@@ -18,8 +18,9 @@ import tacos.Order;
 @Repository
 public class JdbcOrderRepository implements OrderRepository {
 
-    private SimpleJdbcInsert orderInserter;
-    private SimpleJdbcInsert orderTacoInserter;
+    private SimpleJdbcInsert
+            orderInserter,
+            orderTacoInserter;
     private ObjectMapper objectMapper;
 
     @Autowired
@@ -27,8 +28,10 @@ public class JdbcOrderRepository implements OrderRepository {
         this.orderInserter = new SimpleJdbcInsert(jdbc)
                 .withTableName("Taco_Order")
                 .usingGeneratedKeyColumns("id");
+
         this.orderTacoInserter = new SimpleJdbcInsert(jdbc).
                 withTableName("Taco_Order_Tacos");
+
         this.objectMapper = new ObjectMapper();
     }
 
@@ -38,18 +41,14 @@ public class JdbcOrderRepository implements OrderRepository {
         long orderId = saveOrderDetails(order);
         order.setId(orderId);
         List<Taco> tacos = order.getTacos();
-        for (Taco taco : tacos) {
-            saveTacoToOrder(taco, orderId);
-        }
+        for (Taco taco : tacos) saveTacoToOrder(taco, orderId);
         return order;
     }
 
     private long saveOrderDetails(Order order) {
         @SuppressWarnings("unchecked")
-        Map<String, Object> values =
-                objectMapper.convertValue(order, Map.class);
+        Map<String, Object> values = objectMapper.convertValue(order, Map.class);
         values.put("placedAt", order.getPlacedAt());
-
         long orderId =
                 orderInserter
                         .executeAndReturnKey(values)

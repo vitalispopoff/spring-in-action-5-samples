@@ -34,37 +34,22 @@ public class RawJdbcIngredientRepository implements IngredientRepository {
         ResultSet resultSet = null;
         try {
             connection = dataSource.getConnection();
-            statement = connection.prepareStatement(
-                    "select id, name, type from Ingredient");
+            statement = connection.prepareStatement("select id, name, type from Ingredient");
             resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 Ingredient ingredient = new Ingredient(
                         resultSet.getString("id"),
                         resultSet.getString("name"),
-                        Ingredient.Type.valueOf(resultSet.getString("type")));
+                        Ingredient.Type.valueOf(resultSet.getString("type"))
+                );
                 ingredients.add(ingredient);
             }
         } catch (SQLException e) {
             // ??? What should be done here ???
         } finally {
-            if (resultSet != null) {
-                try {
-                    resultSet.close();
-                } catch (SQLException e) {
-                }
-            }
-            if (statement != null) {
-                try {
-                    statement.close();
-                } catch (SQLException e) {
-                }
-            }
-            if (connection != null) {
-                try {
-                    connection.close();
-                } catch (SQLException e) {
-                }
-            }
+            if (resultSet != null) try {resultSet.close();} catch (SQLException e) {}
+            if (statement != null) try {statement.close();} catch (SQLException e) {}
+            if (connection != null) try {connection.close();} catch (SQLException e) {}
         }
         return ingredients;
     }
@@ -77,40 +62,24 @@ public class RawJdbcIngredientRepository implements IngredientRepository {
 
         try {
             connection = dataSource.getConnection();
-            statement = connection.prepareStatement(
-                    "select id, name, type from Ingredient");
-            statement.setString(1, id);
+            statement = connection.prepareStatement("select id, name, type from Ingredient");
+            statement.setString((int)1, id);                        // * forced int casting
             resultSet = statement.executeQuery();
             Ingredient ingredient = null;
 
-            if (resultSet.next()) {
+            if (resultSet.next())
                 ingredient = new Ingredient(
                         resultSet.getString("id"),
                         resultSet.getString("name"),
-                        Ingredient.Type.valueOf(resultSet.getString("type")));
-            }
+                        Ingredient.Type.valueOf(resultSet.getString("type"))
+                );
             return ingredient;
         } catch (SQLException e) {
             // ? What should be done here ?
         } finally {
-            if (resultSet != null) {
-                try {
-                    resultSet.close();
-                } catch (SQLException e) {
-                }
-            }
-            if (statement != null) {
-                try {
-                    statement.close();
-                } catch (SQLException e) {
-                }
-            }
-            if (connection != null) {
-                try {
-                    connection.close();
-                } catch (SQLException e) {
-                }
-            }
+            if (resultSet != null) try {resultSet.close();} catch (SQLException e) {}
+            if (statement != null) try {statement.close();} catch (SQLException e) {}
+            if (connection != null) try {connection.close();} catch (SQLException e) {}
         }
         return null;
     }

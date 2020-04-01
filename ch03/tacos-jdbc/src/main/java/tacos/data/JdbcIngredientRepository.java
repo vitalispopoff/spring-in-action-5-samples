@@ -21,7 +21,8 @@ public class JdbcIngredientRepository implements IngredientRepository {
 
     @Override
     public Iterable<Ingredient> findAll() {
-        return jdbc.query("select id, name, type from Ingredient",
+        return jdbc.query(
+                "select id, name, type from Ingredient",
                 this::mapRowToIngredient);
     }
 
@@ -38,12 +39,12 @@ public class JdbcIngredientRepository implements IngredientRepository {
                 "insert into Ingredient (id, name, type) values (?, ?, ?)",
                 ingredient.getId(),
                 ingredient.getName(),
-                ingredient.getType().toString());
+                ingredient.getType().toString()
+        );
         return ingredient;
     }
 
-    private Ingredient mapRowToIngredient(ResultSet rs, int rowNum)
-            throws SQLException {
+    private Ingredient mapRowToIngredient(ResultSet rs, int rowNum) throws SQLException {
         return new Ingredient(
                 rs.getString("id"),
                 rs.getString("name"),

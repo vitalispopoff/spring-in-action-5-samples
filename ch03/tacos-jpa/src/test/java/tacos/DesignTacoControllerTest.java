@@ -69,7 +69,6 @@ public class DesignTacoControllerTest {
                 .thenReturn(Optional.of(new Ingredient("GRBF", "Ground Beef", Type.PROTEIN)));
         when(ingredientRepository.findById("CHED"))
                 .thenReturn(Optional.of(new Ingredient("CHED", "Cheddar", Type.CHEESE)));
-
         design = new Taco();
         design.setName("Test Taco");
         design.setIngredients(Arrays.asList(

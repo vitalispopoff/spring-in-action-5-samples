@@ -36,8 +36,7 @@ public class DesignAndOrderTacosBrowserTest {
     @BeforeClass
     public static void setup() {
         browser = new HtmlUnitDriver();
-        browser.manage().timeouts()
-                .implicitlyWait(10, TimeUnit.SECONDS);
+        browser.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
     }
 
     @AfterClass
@@ -124,7 +123,6 @@ public class DesignAndOrderTacosBrowserTest {
         assertIngredient(sauceGroup, 0, "SLSA", "Salsa");
         assertIngredient(sauceGroup, 1, "SRCR", "Sour Cream");
     }
-
 
     private void fillInAndSubmitOrderForm() {
         assertTrue(browser.getCurrentUrl().startsWith(orderDetailsPageUrl()));

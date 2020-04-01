@@ -50,7 +50,8 @@ public class DesignTacoControllerTest {
 
     @Test
     public void testShowDesignForm() throws Exception {
-        mockMvc.perform(get("/design"))
+        mockMvc
+                .perform(get("/design"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("design"))
                 .andExpect(model().attribute("wrap", ingredients.subList(0, 2)))
@@ -62,7 +63,8 @@ public class DesignTacoControllerTest {
 
     @Test
     public void processDesign() throws Exception {
-        mockMvc.perform(post("/design")
+        mockMvc
+                .perform(post("/design")
                 .content("name=Test+Taco&ingredients=FLTO,GRBF,CHED")
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED))
                 .andExpect(status().is3xxRedirection())

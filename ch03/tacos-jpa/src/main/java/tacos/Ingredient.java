@@ -15,8 +15,9 @@ import lombok.RequiredArgsConstructor;
 public class Ingredient {
 
     @Id
-    private final String id;
-    private final String name;
+    private final String
+            id,
+            name;
     private final Type type;
 
     public static enum Type {
