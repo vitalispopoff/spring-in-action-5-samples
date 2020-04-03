@@ -20,6 +20,9 @@ public class HomeControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
+    /**
+     * Wywołuje i sprawdza realizację wywołania głównego katalogu domeny i powiązanej z nim strony home.html
+     * */
     @Test
     public void testHomePage() throws Exception {
         mockMvc

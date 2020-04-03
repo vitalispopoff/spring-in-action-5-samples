@@ -21,17 +21,30 @@ public class HomePageBrowserTest {
     private int port;
     private static HtmlUnitDriver browser;
 
+    /**
+     * przygotowuje emulację przeglądarki do testów
+     * */
     @BeforeClass
     public static void setup() {
         browser = new HtmlUnitDriver();
         browser.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
     }
 
+    /**
+     * wyłącza emulację przeglądarki
+     * */
     @AfterClass
     public static void teardown() {
         browser.quit();
     }
 
+    /**
+     * tworzy lokalny adres witryny i wywołuje go w przeglądarce;
+     * weryfikuje prawidłowość wywołania przez:
+     *      potwierdzenie tytułu strony
+     *      potwierdzenie wyświetlanego nagłówka strony
+     *      potwierdzenie tagu pliku graficznego
+     * */
     @Test
     public void testHomePage() {
         String homePage = "http://localhost:" + port;

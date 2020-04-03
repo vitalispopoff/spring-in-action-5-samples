@@ -6,8 +6,11 @@ import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
+import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ConcurrentModel;
 import org.springframework.ui.Model;
+import org.springframework.util.Assert;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -63,3 +66,45 @@ public class DesignTacoController {
                 .collect(Collectors.toList());
     }
 }
+
+/*
+*   @Slf4j
+*       .
+*
+*   @Controller
+*       adnotacja definiuje klasę jako kontroler w rozumieniu wzorca architektonicznego VMC
+*
+*   @RequestMapping("/design")
+*       Adnotacja łączy klasę z podkatalogiem /design
+*
+*   @ModelAttribute
+*
+*   addIngredientModel()
+*       przekształca stworzoną (hardcoded) listę dodatków składników na tabelę,
+*       której zawartość iterując kolejno przekształca i dodaje do objektu model
+*       wywołanego jako parametr wejściowy
+*
+*   showDesignForm()
+*       metoda dodaje do wskazanego modelu (hashmap ?) puste taco pod hasłem "design"
+*       i zwraca nazwę
+* */
+
+/*
+ *  AD 1.
+ *   addAttribute()
+ *      po weryfikacji prawidłowego zainicjalizowania paremetrów wejściowych (Assert.notNull())
+ *      metoda dopisuje je instancji klasy (hashmap) wg schematu
+ *          param 1 => klusz,
+ *          param 2 => wartość
+ * */
+
+/*      źródło package org.springframework.ui: : class ConcurrentModel extends ConcurrentHashMap<String, Object> implements Model
+
+    public ConcurrentModel addAttribute(String attributeName, @Nullable Object attributeValue) {
+        Assert.notNull(attributeName, "Model attribute name must not be null");
+        Assert.notNull(attributeValue, "ConcurrentModel does not support null attribute value");
+        this.put(attributeName, attributeValue);
+        return this;
+    }*/
+
+

@@ -22,6 +22,9 @@ import tacos.web.DesignTacoController;
 @WebMvcTest(DesignTacoController.class)
 public class DesignTacoControllerTest {
 
+    /**
+     *
+     */
     @Autowired
     private MockMvc mockMvc;
 
@@ -29,6 +32,10 @@ public class DesignTacoControllerTest {
 
     private Taco design;
 
+    /**
+     * przygotowuje zestawienie skłądników do testów;
+     * generuje testowe taco
+     */
     @Before
     public void setup() {
         ingredients = Arrays.asList(
@@ -48,6 +55,9 @@ public class DesignTacoControllerTest {
         design.setIngredients(Arrays.asList("FLTO", "GRBF", "CHED"));
     }
 
+    /**
+     * wywołuje żądanie GET podkatalogu /design (?) i sprawdza zawartość zestawienia (?)
+     * */
     @Test
     public void testShowDesignForm() throws Exception {
         mockMvc
@@ -61,12 +71,15 @@ public class DesignTacoControllerTest {
                 .andExpect(model().attribute("sauce", ingredients.subList(8, 10)));
     }
 
+/**
+ * wywołuje żądanie POST podkatalogu / design z prawidłowym projektem taco i sprawdza przekierowanie do strony realizacji zamówienia (?) pod adresem /orders/current
+ * */
     @Test
     public void processDesign() throws Exception {
         mockMvc
                 .perform(post("/design")
-                .content("name=Test+Taco&ingredients=FLTO,GRBF,CHED")
-                .contentType(MediaType.APPLICATION_FORM_URLENCODED))
+                        .content("name=Test+Taco&ingredients=FLTO,GRBF,CHED")
+                        .contentType(MediaType.APPLICATION_FORM_URLENCODED))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(header().stringValues("Location", "/orders/current"));
     }

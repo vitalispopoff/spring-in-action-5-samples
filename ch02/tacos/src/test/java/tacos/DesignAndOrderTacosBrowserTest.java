@@ -27,12 +27,19 @@ public class DesignAndOrderTacosBrowserTest {
 
     private static HtmlUnitDriver browser;
 
+    /**
+     * inicjalizowane w setup()
+     * */
     @LocalServerPort
     private int port;
 
     @Autowired
     TestRestTemplate rest;
 
+    /**
+     * ładowanie wirtualizacji wyszukiwarki (?)
+     * odpala obiekt browser
+     * */
     @BeforeClass
     public static void setup() {
         browser = new HtmlUnitDriver();
@@ -47,6 +54,9 @@ public class DesignAndOrderTacosBrowserTest {
         browser.quit();
     }
 
+    /**
+     * testuje proces projektowania i zamówienia dwóch różnych taco w przeglądarce
+     * */
     @Test
     public void testDesignATacoPage_HappyPath() throws Exception {
         browser.get(homePageUrl());
@@ -59,6 +69,9 @@ public class DesignAndOrderTacosBrowserTest {
         assertEquals(homePageUrl(), browser.getCurrentUrl());
     }
 
+    /**
+     * testuje proces projektowania dwóch różnych taco, z których drugi jest pusty (generuje błąd?)
+     * */
     @Test
     public void testDesignATacoPage_EmptyOrderInfo() throws Exception {
         browser.get(homePageUrl());
@@ -70,6 +83,9 @@ public class DesignAndOrderTacosBrowserTest {
         assertEquals(homePageUrl(), browser.getCurrentUrl());
     }
 
+    /**
+     * TODO do analizy
+     * */
     @Test
     public void testDesignATacoPage_InvalidOrderInfo() throws Exception {
         browser.get(homePageUrl());
@@ -81,6 +97,11 @@ public class DesignAndOrderTacosBrowserTest {
         assertEquals(homePageUrl(), browser.getCurrentUrl());
     }
 
+    /**
+     *  iteruje składniki i rozpoznaje je na podstawie formatu w css :
+     * < input name="ingredients" (...) value="..." >
+     *  TODO do sprawdzenia "input#name"
+     * */
     private void buildAndSubmitATaco(String name, String... ingredients) {
         assertDesignPageElements();
         for (String ingredient : ingredients)
@@ -91,6 +112,7 @@ public class DesignAndOrderTacosBrowserTest {
 
     private void assertDesignPageElements() {
         assertEquals(designPageUrl(), browser.getCurrentUrl());
+
         List<WebElement> ingredientGroups = browser.findElementsByClassName("ingredient-group");
         assertEquals(5, ingredientGroups.size());
 
@@ -125,7 +147,9 @@ public class DesignAndOrderTacosBrowserTest {
         assertIngredient(sauceGroup, 1, "SRCR", "Sour Cream");
     }
 
-
+    /**
+     * wprowadza dane teleadresowe i dane karty do testu rejestracji zamówienia
+     * */
     private void fillInAndSubmitOrderForm() {
         assertTrue(browser.getCurrentUrl().startsWith(orderDetailsPageUrl()));
 
@@ -140,6 +164,9 @@ public class DesignAndOrderTacosBrowserTest {
         browser.findElementByCssSelector("form").submit();
     }
 
+    /**
+     * testuje komunikaty błędów rejestracji zamówienia (orderForm.html)
+     * */
     private void submitEmptyOrderForm() {
         assertEquals(currentOrderDetailsPageUrl(), browser.getCurrentUrl());
 
@@ -168,6 +195,9 @@ public class DesignAndOrderTacosBrowserTest {
         return validationErrors;
     }
 
+/**
+ * testuje reakcję na nieprawidłowe dane wejściowe formularza
+ * */
     private void submitInvalidOrderForm() {
         assertTrue(browser.getCurrentUrl().startsWith(orderDetailsPageUrl()));
 
@@ -197,36 +227,58 @@ public class DesignAndOrderTacosBrowserTest {
         field.sendKeys(value);
     }
 
+/**
+ *  wyseparowuje skłądnik ze strony i porównuje sprawdza wartość jego identyfikatora (asercia)
+ * */
     private void assertIngredient(WebElement ingredientGroup, int ingredientIdx, String id, String name) {
         List<WebElement> proteins = ingredientGroup.findElements(By.tagName("div"));
         WebElement ingredient = proteins.get(ingredientIdx);
-
         assertEquals(id, ingredient.findElement(By.tagName("input")).getAttribute("value"));
         assertEquals(name, ingredient.findElement(By.tagName("span")).getText());
     }
 
+    /**
+     * emuluje naciśnięcie przycisku.
+     * TODO sprawdzić składnię "a[id='design']"
+     * */
     private void clickDesignATaco() {
         assertEquals(homePageUrl(), browser.getCurrentUrl());
         browser.findElementByCssSelector("a[id='design']").click();
     }
 
+    /**
+     * emuluje naciśnięcie przycisku zawierającego łańcuch "design" w kodzie
+     * " a href="/design" id="another"> Design another taco </ "
+     * */
     private void clickBuildAnotherTaco() {
         assertTrue(browser.getCurrentUrl().startsWith(orderDetailsPageUrl()));
         browser.findElementByCssSelector("a[id='another']").click();
     }
 
-    private String designPageUrl() {
-        return homePageUrl() + "design";
-    }
-
+    /**
+     * zwraca adres głównego katalogu domeny wraz z aktualnym portem
+     * */
     private String homePageUrl() {
         return "http://localhost:" + port + "/";
     }
 
+    /**
+     * zwraca adres podkatalogu /design domeny
+     * */
+    private String designPageUrl() {
+        return homePageUrl() + "design";
+    }
+
+    /**
+     * zwraca adres podkatalogu /orders domeny
+     * */
     private String orderDetailsPageUrl() {
         return homePageUrl() + "orders";
     }
 
+    /**
+     * zwraca adres podkatalogu orders/current domeny
+     * */
     private String currentOrderDetailsPageUrl() {
         return homePageUrl() + "orders/current";
     }

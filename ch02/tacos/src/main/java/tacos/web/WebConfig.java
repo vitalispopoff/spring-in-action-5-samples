@@ -14,3 +14,21 @@ public class WebConfig implements WebMvcConfigurer {
                 .setViewName("home");
     }
 }
+
+/*
+*   @Configuration
+*       .
+*
+*   @Override
+*       .
+*
+*   WebMvcConfigurer
+*       .
+*
+*   addViewController()
+*       do wybranego obiektu registry dodaje kontekst:
+*           pośredni adres url (tuta: "/")
+*           oraz obsługę (?) raportów połaczenia HTTP
+*       powyższe łączy z nazwą stosownego pliku html z katalogu resources (tutaj: home.html)
+*
+* */

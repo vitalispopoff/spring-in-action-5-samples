@@ -20,3 +20,17 @@ public class Ingredient {
         SAUCE
     }
 }
+
+/*
+*   @Data (https://projectlombok.org/features/Data)
+*       Adnotacja, która łącząc funkcje adnotacji
+*           @ToSTring
+*           @EqualsAndHshCode
+*           @Getter / @Setter
+*           @RequiredArgsConstructor
+*       wymusza generowanie boilerplate'u
+*
+*   @RequiredArgsConstructor
+*       adnotacja wymurza wygenerowanie konstruktora z ustalonymi argumentami,
+*       które są dekretowane jako final. lub final z dodatkowymi adnotacjami, np @NonNull
+* */
